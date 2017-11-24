@@ -1,0 +1,5 @@
+Arquivo de teste.
+Na saída devem aparecer letras separadas por espaços e palavras por barras '/' e
+sem quebra de linhas.
+Múltiplos      espaços      devem     ser    ignorados.
+Note os erros com os acentos.
