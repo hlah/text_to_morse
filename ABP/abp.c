@@ -15,9 +15,9 @@ pNodoA* InsereArvore(pNodoA *a, tipoinfo ch)
          return a;
      }
      else
-          if (ch < a->info)
+          if (ch.key < a->info.key)
               a->esq = InsereArvore(a->esq,ch);
-          else if (ch > a->info)
+          else if (ch.key > a->info.key)
               a->dir = InsereArvore(a->dir,ch);
      return a;
 }
@@ -26,7 +26,7 @@ void preFixado(pNodoA *a)
 {
      if (a!= NULL)
      {
-          printf("%d\n",a->info);
+          printf("%c | %s\n",a->info.key, a->info.code);
           preFixado(a->esq);
           preFixado(a->dir);
       }
@@ -37,7 +37,7 @@ void Central(pNodoA *a)
      if (a!= NULL)
      {
           Central(a->esq);
-          printf("%d\n",a->info);
+          printf("%c | %s\n",a->info.key, a->info.code);
           Central(a->dir);
       }
 }
@@ -48,17 +48,17 @@ void posFixado(pNodoA *a)
      {
           posFixado(a->esq);
           posFixado(a->dir);
-          printf("%d\n",a->info);
+          printf("%c | %s\n",a->info.key, a->info.code);
       }
 }
 
 pNodoA* consultaABP(pNodoA *a, tipoinfo chave) {
 
     while (a!=NULL){
-          if (a->info == chave )
+          if (a->info.key == chave.key )
              return a; //achou então retorna o ponteiro para o nodo
           else
-            if (a->info > chave)
+            if (a->info.key > chave.key)
                a = a->esq;
             else
                a = a->dir;
@@ -70,12 +70,12 @@ pNodoA* consultaABP2(pNodoA *a, tipoinfo chave) {
     if (a!=NULL) {
 
 
-       if (a->info == chave)
+       if (a->info.key == chave.key)
          return a;
        else
-           if (a->info > chave)
+           if (a->info.key > chave.key)
                 return consultaABP2(a->esq,chave);
-            if (a->info < chave)
+            if (a->info.key < chave.key)
                 return consultaABP2(a->dir,chave);
 
             else return a;

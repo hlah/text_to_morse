@@ -1,4 +1,10 @@
-typedef int tipoinfo;
+
+#define MORSELEN 15
+typedef struct
+{
+    char key;
+    char code[MORSELEN];
+} tipoinfo;
 
 struct TNodoA{
         tipoinfo info;
@@ -7,6 +13,8 @@ struct TNodoA{
 };
 
 typedef struct TNodoA pNodoA;
+
+typedef pNodoA* (*insereFuncPtr)(pNodoA *a, tipoinfo ch);
 
 pNodoA* InsereArvore(pNodoA *a, tipoinfo ch);
 void preFixado(pNodoA *a);
