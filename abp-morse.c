@@ -1,32 +1,51 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "ABP/abp.h"
 
-#define MORSELEN 15
 
+/*****************************************************
+ * monta_abp_morse:
+ * params: FILE* fd - fileDescriptor do arquivo que contem a tabela morse
+ *         insereFuncPtr insert: Ponteiro de funçao para a funcao de insercao na arvore.
+ * return:
+ *          root: ponteiro para a raiz da arvore montada
+ *****************************************************/
+pNodoA* monta_abp_morse(FILE *fd, insereFuncPtr insert)
+{
+	char	morse[MORSELEN];
+    tipoinfo info;
+    pNodoA* root= NULL;
+    while(fscanf(fd, "%c\t%s\n", &info.key, info.code) == 2) {
+		info.key = toupper(info.key);
+        root= insert(root, info);
+    }
+    return root;
+}
+
+/*****************************************************/
 int main(int argc, char* argv[]) {
-	FILE*  	tabela_morse;
+	FILE*  	tabelaMorseFD;
 	FILE*  	texto_origem;
 	FILE*  	texto_destino;
-	char	letra;
-	char	morse[MORSELEN];
 	char	espaco;
+    pNodoA* rootMorse;
+	char	letra;
 
 	// abre tabela do codigo morse
-	tabela_morse = fopen(argv[1], "r");
+	tabelaMorseFD = fopen(argv[1], "r");
 	// testa abertura
-	if( tabela_morse == NULL ) {
+	if( tabelaMorseFD == NULL ) {
 		printf("Nao foi possivel abrir o arquivo '%s'\n", argv[1]);
 	} else {
-		// converte letra para uppercase
-		letra = toupper(letra);
-		while(fscanf(tabela_morse, "%c\t%s\n", &letra, morse) == 2) {
-			// AQUI COLOCA CHAVE=letra E VALOR=morse NA ÁRVORE
-
-		}
+        rootMorse= monta_abp_morse(tabelaMorseFD, InsereArvore);
 		// fecha tabela morse
-		fclose(tabela_morse);
+		fclose(tabelaMorseFD);
 	}
+    printf("TABELA MORSE:INICIO\n");
+    Central(rootMorse);
+    printf("TABELA MORSE:FIM\n");
+    
 	
 	// abre arquivo destino
 	texto_origem = fopen(argv[2], "r");
@@ -76,3 +95,4 @@ int main(int argc, char* argv[]) {
 	
 	return 0;
 }
+/*****************************************************/
