@@ -53,9 +53,10 @@ void posFixado(pNodoA *a)
       }
 }
 
-pNodoA* consultaABP(pNodoA *a, tipoinfo chave) {
+pNodoA* consultaABP(pNodoA *a, tipoinfo chave, unsigned int*comp) {
 
     while (a!=NULL){
+		  (*comp)++;
           if (a->info.key == chave.key )
              return a; //achou então retorna o ponteiro para o nodo
           else

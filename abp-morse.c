@@ -73,6 +73,7 @@ int main(int argc, char* argv[]) {
 	wchar_t	letra_wide;
 	pNodoA* consultaRetorno;
 	tipoinfo chaveProcura;
+	unsigned int comp=0;
 
 	// função necessária para ler cacteres multi-byte apropriadamente
 	setlocale(LC_ALL, "");
@@ -129,7 +130,7 @@ int main(int argc, char* argv[]) {
 				chaveProcura.key = processa_letra(letra_wide);
 
 				/////// CONVERSÂO PARA MORSE AQUI //////////
-				consultaRetorno = consultaABP(rootMorse, chaveProcura);
+				consultaRetorno = consultaABP(rootMorse, chaveProcura, &comp);
 
 				// se caracter ausente na tabela, não converte
 				if( consultaRetorno != NULL ) {
@@ -146,6 +147,7 @@ int main(int argc, char* argv[]) {
 		fclose(texto_origem);
 		// fecha destino
 		fclose(texto_destino);
+		printf("NUMERO DE COMPARACOES: %d\n\n", comp);
 	}
 	
 	return 0;
