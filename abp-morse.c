@@ -71,6 +71,8 @@ int main(int argc, char* argv[]) {
     pNodoA* rootMorse;
 	char	letra;
 	wchar_t	letra_wide;
+	pNodoA* consultaRetorno;
+	tipoinfo chaveProcura;
 
 	// função necessária para ler cacteres multi-byte apropriadamente
 	setlocale(LC_ALL, "");
@@ -124,12 +126,16 @@ int main(int argc, char* argv[]) {
 				espaco = 1;
 			} else {
 				// processa caracter
-				letra = processa_letra(letra_wide);
+				chaveProcura.key = processa_letra(letra_wide);
 
 				/////// CONVERSÂO PARA MORSE AQUI //////////
+				consultaRetorno = consultaABP(rootMorse, chaveProcura);
 
-				fprintf(texto_destino, "%c ", letra); // escreve sem converter, para teste
-
+				// se caracter ausente na tabela, não converte
+				if( consultaRetorno != NULL ) {
+					// salva no arquivo
+					fprintf(texto_destino, "%s ", consultaRetorno->info.code); // escreve sem converter, para teste
+				}
 
 				// reseta variavel -- ultima não foi espaço
 				espaco = 0;
