@@ -12,6 +12,7 @@ pNodoA* InsereArvore(pNodoA *a, tipoinfo ch)
          a->info = ch;
          a->esq = NULL;
          a->dir = NULL;
+         a->FB = 0; // o nodo é sempre inserido como folha então seu fator de balanceamento é 0
          return a;
      }
      else

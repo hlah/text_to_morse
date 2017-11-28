@@ -3,8 +3,11 @@
 #include <ctype.h>
 #include <wctype.h>
 #include <locale.h>
+#include <string.h>
 #include "ABP/abp.h"
+#include "ABP/avl.h"
 
+#define AVL_OPTION "avl"
 
 /*****************************************************
  * monta_abp_morse:
@@ -49,7 +52,17 @@ wchar_t processa_letra(wchar_t letra) {
 	return letra;
 }
 
+
 /*****************************************************/
+pNodoA* InsereAVLWrapper(pNodoA *a, tipoinfo info)
+{
+    int ok;
+    return InsereAVL(a,info,&ok);
+}
+
+/*****************************************************/
+
+
 int main(int argc, char* argv[]) {
 	FILE*  	tabelaMorseFD;
 	FILE*  	texto_origem;
@@ -68,7 +81,14 @@ int main(int argc, char* argv[]) {
 	if( tabelaMorseFD == NULL ) {
 		printf("Nao foi possivel abrir o arquivo '%s'\n", argv[1]);
 	} else {
-        rootMorse= monta_abp_morse(tabelaMorseFD, InsereArvore);
+        if(argc==5 && strcmp(argv[4],AVL_OPTION)==0){
+            printf("Usando AVL.\n");
+            rootMorse= monta_abp_morse(tabelaMorseFD, InsereAVLWrapper);
+        }else{
+            printf("Usando ABP sem balanceamento.\n");
+            rootMorse= monta_abp_morse(tabelaMorseFD, InsereArvore);
+        }
+
 		// fecha tabela morse
 		fclose(tabelaMorseFD);
 	}

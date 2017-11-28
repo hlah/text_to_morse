@@ -1,39 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <string.h>
+#include "abp.h"
 #include "avl.h"
 
 
-struct TNodoA{
-TipoInfo info;
-int FB;
-struct TNodoA *esq;
-struct TNodoA *dir;
-};
-
-
-
-
-
-pNodoA* InsereArvore(pNodoA* a, TipoInfo ch)
-{
-  if (a == NULL)
-  {
-    a = (pNodoA*) malloc(sizeof(pNodoA));
-    a->info = ch;
-    a->esq = NULL;
-    a->dir = NULL;
-    a->FB = 0; // o nodo é sempre inserido como folha então seu fator de balanceamento é 0
-  }
-  else
-  if (ch < (a->info))
-    a->esq = InsereArvore(a->esq,ch);
-  else
-    a->dir = InsereArvore(a->dir,ch);
-    return a;
-}
-
+//pNodoA* InsereArvore(pNodoA* a, tipoinfo ch)
+//{
+//  if (a == NULL)
+//  {
+//    a = (pNodoA*) malloc(sizeof(pNodoA));
+//    a->info = ch;
+//    a->esq = NULL;
+//    a->dir = NULL;
+//    a->FB = 0; // o nodo é sempre inserido como folha então seu fator de balanceamento é 0
+//  }
+//  else
+//      if (ch < (a->info))
+//        a->esq = InsereArvore(a->esq,ch);
+//      else
+//        a->dir = InsereArvore(a->dir,ch);
+//    return a;
+//}
+//
 int Altura (pNodoA *a)
 {
     int Alt_Esq, Alt_Dir;
@@ -63,7 +52,7 @@ int x;
  {
    for (x=1; x<=nivel; x++)
       printf("=");
-  printf("%d FB= %d\n", a->info, Calcula_FB(a));
+  printf("%d FB= %d\n", a->info.key, Calcula_FB(a));
    if (a->esq != NULL) Desenha(a->esq, (nivel+1));
    if (a->dir != NULL) Desenha(a->dir, (nivel+1));
  }
@@ -148,12 +137,12 @@ pNodoA* Caso1 (pNodoA* a , int *ok)
 	ptu = a->esq;
 	if (ptu->FB == 1) 
     {    
-        printf("fazendo rotacao direita em %d\n",a->info);
+        printf("fazendo rotacao direita em %d\n",a->info.key);
         a = rotacao_direita(a);
      }
     else
     {
-        printf("fazendo rotacao dupla direita em %d\n",a->info);
+        printf("fazendo rotacao dupla direita em %d\n",a->info.key);
         a = rotacao_dupla_direita(a);
     }
 	
@@ -170,13 +159,13 @@ pNodoA* Caso2 (pNodoA *a , int *ok)
 	if (ptu->FB == -1) 
     {
        Desenha(a,1);
-       printf("fazendo rotacao esquerda em %d\n",a->info);
+       printf("fazendo rotacao esquerda em %d\n",a->info.key);
        a=rotacao_esquerda(a);
     }
     else
     {
        Desenha(a,1);
-       printf("fazendo rotacao dupla esquerda em %d\n",a->info);
+       printf("fazendo rotacao dupla esquerda em %d\n",a->info.key);
        a=rotacao_dupla_esquerda(a);
     }
 	a->FB = 0;
@@ -184,7 +173,7 @@ pNodoA* Caso2 (pNodoA *a , int *ok)
 	return a;
 }
 
-pNodoA* InsereAVL (pNodoA *a, TipoInfo x, int *ok)
+pNodoA* InsereAVL (pNodoA *a, tipoinfo x, int *ok)
 {
 /* Insere nodo em uma árvore AVL, onde A representa a raiz da árvore,
   x, a chave a ser inserida e h a altura da árvore */
@@ -199,7 +188,7 @@ pNodoA* InsereAVL (pNodoA *a, TipoInfo x, int *ok)
 	    *ok = 1;
      }
      else
-     if (x < a->info) 
+     if (x.key < a->info.key) 
      {
 		a->esq = InsereAVL(a->esq,x,ok);
         if (*ok) 
