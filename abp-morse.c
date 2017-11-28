@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <wctype.h>
+#include <locale.h>
 #include "ABP/abp.h"
 
 
@@ -22,6 +24,30 @@ pNodoA* monta_abp_morse(FILE *fd, insereFuncPtr insert)
     }
     return root;
 }
+/*****************************************************
+ * processa_letra:
+ * params: wchar_t letra: Letra a ser processada
+ * return:
+ 			letra: letra recebida por argumento removida de acentos e em uppercase
+ *****************************************************/
+wchar_t processa_letra(wchar_t letra) {
+	// mapa de caracteres acentuados
+	const wchar_t* acentuadas_mapa = 	L"ÁÀÃÂÄÉÈÊËÍÌÎĨÏÓÒÔÕÖÚÙÛŨÜÇÑ";
+	const wchar_t* normais_mapa = 		L"AAAAAEEEEIIIIIOOOOOUUUUUCN";
+	int indice = 0;
+
+	// transforma em uppercase
+	letra = towupper(letra);
+
+	// procura letra no mapa
+	while( acentuadas_mapa[indice] != 0 && letra != acentuadas_mapa[indice] )
+		indice++;
+	// se letra está no mapa, substitui por correspondente
+	if( acentuadas_mapa[indice] != 0 )
+		letra = normais_mapa[indice];
+
+	return letra;
+}
 
 /*****************************************************/
 int main(int argc, char* argv[]) {
@@ -31,6 +57,10 @@ int main(int argc, char* argv[]) {
 	char	espaco;
     pNodoA* rootMorse;
 	char	letra;
+	wchar_t	letra_wide;
+
+	// função necessária para ler cacteres multi-byte apropriadamente
+	setlocale(LC_ALL, "");
 
 	// abre tabela do codigo morse
 	tabelaMorseFD = fopen(argv[1], "r");
@@ -62,9 +92,9 @@ int main(int argc, char* argv[]) {
 	} else {
 		// inicia variavel que determina se último carcter era espaço (ou '\n')
 		espaco = 0;
-		while(fscanf(texto_origem, "%c", &letra) == 1) {
+		while(fscanf(texto_origem, "%lc", &letra_wide) == 1) {
 			// verifica se é ' ' ou '\n'
-			if( letra == ' ' || letra == '\n') {
+			if( letra_wide == ' ' || letra_wide == '\n') {
 				// se era espaco antes não faz nada
 				if(!espaco) {
 					// coloca " / " no arquivo destino
@@ -74,12 +104,12 @@ int main(int argc, char* argv[]) {
 				espaco = 1;
 			} else {
 				// converte letra para upercase
-				letra = toupper(letra);
+				letra_wide = processa_letra(letra_wide);
 				// TEM QUE REMOVER OS ACENTOS TAMBÈM.....
 
 				// AQUI CONSULTA ARVORE, CONVERTE PARA MORSE E SALVA NO ARQUIVO //
 				
-				fprintf(texto_destino, "%c ", letra); // escreve sem converter, para teste
+				fprintf(texto_destino, "%lc ", letra_wide); // escreve sem converter, para teste
 
 
 				// reseta variavel
