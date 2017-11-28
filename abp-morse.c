@@ -33,10 +33,10 @@ pNodoA* monta_abp_morse(FILE *fd, insereFuncPtr insert)
  * return:
  			letra: letra recebida por argumento removida de acentos e em uppercase
  *****************************************************/
-wchar_t processa_letra(wchar_t letra) {
+char processa_letra(wchar_t letra) {
 	// mapa de caracteres acentuados
 	const wchar_t* acentuadas_mapa = 	L"ÁÀÃÂÄÉÈÊËÍÌÎĨÏÓÒÔÕÖÚÙÛŨÜÇÑ";
-	const wchar_t* normais_mapa = 		L"AAAAAEEEEIIIIIOOOOOUUUUUCN";
+	const char* normais_mapa = 			 "AAAAAEEEEIIIIIOOOOOUUUUUCN";
 	int indice = 0;
 
 	// transforma em uppercase
@@ -123,16 +123,15 @@ int main(int argc, char* argv[]) {
 				// seta variavel
 				espaco = 1;
 			} else {
-				// converte letra para upercase
-				letra_wide = processa_letra(letra_wide);
-				// TEM QUE REMOVER OS ACENTOS TAMBÈM.....
+				// processa caracter
+				letra = processa_letra(letra_wide);
 
-				// AQUI CONSULTA ARVORE, CONVERTE PARA MORSE E SALVA NO ARQUIVO //
-				
-				fprintf(texto_destino, "%lc ", letra_wide); // escreve sem converter, para teste
+				/////// CONVERSÂO PARA MORSE AQUI //////////
+
+				fprintf(texto_destino, "%c ", letra); // escreve sem converter, para teste
 
 
-				// reseta variavel
+				// reseta variavel -- ultima não foi espaço
 				espaco = 0;
 			}
 		}
