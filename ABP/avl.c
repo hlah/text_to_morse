@@ -5,6 +5,9 @@
 #include "avl.h"
 
 
+//#define DEBUG 1      //uncomment to print dprintf() as printf()
+#include "debug.h"
+
 //pNodoA* InsereArvore(pNodoA* a, tipoinfo ch)
 //{
 //  if (a == NULL)
@@ -51,8 +54,8 @@ int x;
  if (a !=NULL)
  {
    for (x=1; x<=nivel; x++)
-      printf("=");
-  printf("%d FB= %d\n", a->info.key, Calcula_FB(a));
+      dprintf("=");
+  dprintf("%d FB= %d\n", a->info.key, Calcula_FB(a));
    if (a->esq != NULL) Desenha(a->esq, (nivel+1));
    if (a->dir != NULL) Desenha(a->dir, (nivel+1));
  }
@@ -137,12 +140,12 @@ pNodoA* Caso1 (pNodoA* a , int *ok)
 	ptu = a->esq;
 	if (ptu->FB == 1) 
     {    
-        printf("fazendo rotacao direita em %d\n",a->info.key);
+        dprintf("fazendo rotacao direita em %d\n",a->info.key);
         a = rotacao_direita(a);
      }
     else
     {
-        printf("fazendo rotacao dupla direita em %d\n",a->info.key);
+        dprintf("fazendo rotacao dupla direita em %d\n",a->info.key);
         a = rotacao_dupla_direita(a);
     }
 	
@@ -159,13 +162,13 @@ pNodoA* Caso2 (pNodoA *a , int *ok)
 	if (ptu->FB == -1) 
     {
        Desenha(a,1);
-       printf("fazendo rotacao esquerda em %d\n",a->info.key);
+       dprintf("fazendo rotacao esquerda em %d\n",a->info.key);
        a=rotacao_esquerda(a);
     }
     else
     {
        Desenha(a,1);
-       printf("fazendo rotacao dupla esquerda em %d\n",a->info.key);
+       dprintf("fazendo rotacao dupla esquerda em %d\n",a->info.key);
        a=rotacao_dupla_esquerda(a);
     }
 	a->FB = 0;

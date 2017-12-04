@@ -53,7 +53,7 @@ void posFixado(pNodoA *a)
       }
 }
 
-pNodoA* consultaABP(pNodoA *a, tipoinfo chave, unsigned int*comp) {
+pNodoA* consultaABP(pNodoA *a, tipoinfo chave, unsigned long int*comp) {
 
     while (a!=NULL){
 		  (*comp)++;

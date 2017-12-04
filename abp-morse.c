@@ -4,6 +4,7 @@
 #include <wctype.h>
 #include <locale.h>
 #include <string.h>
+#include <time.h>
 #include "ABP/abp.h"
 #include "ABP/avl.h"
 
@@ -73,13 +74,19 @@ int main(int argc, char* argv[]) {
 	wchar_t	letra_wide;
 	pNodoA* consultaRetorno;
 	tipoinfo chaveProcura;
-	unsigned int comp=0;
+	unsigned long int comp=0;
+    clock_t startTimeConsulta, endTimeConsulta, elapsedTimeConsulta; //para contar o tempo
+    clock_t startTimeInsert, endTimeInsert, elapsedTimeInsert; //para contar o tempo
+
 
 	// função necessária para ler cacteres multi-byte apropriadamente
 	setlocale(LC_ALL, "");
 
 	// abre tabela do codigo morse
 	tabelaMorseFD = fopen(argv[1], "r");
+
+    startTimeInsert= clock();
+
 	// testa abertura
 	if( tabelaMorseFD == NULL ) {
 		printf("Nao foi possivel abrir o arquivo '%s'\n", argv[1]);
@@ -95,9 +102,10 @@ int main(int argc, char* argv[]) {
 		// fecha tabela morse
 		fclose(tabelaMorseFD);
 	}
-    printf("TABELA MORSE:INICIO\n");
-    Central(rootMorse);
-    printf("TABELA MORSE:FIM\n");
+    endTimeInsert= clock();
+//    printf("TABELA MORSE:INICIO\n");   //print da tabela morse
+//    Central(rootMorse);
+//    printf("TABELA MORSE:FIM\n");
     
 	
 	// abre arquivo destino
@@ -115,6 +123,8 @@ int main(int argc, char* argv[]) {
 	} else {
 		// inicia variavel que determina se último carcter era espaço (ou '\n')
 		espaco = 0;
+        startTimeConsulta= clock();
+
 		while(fscanf(texto_origem, "%lc", &letra_wide) == 1) {
 			// verifica se é ' ' ou '\n'
 			if( letra_wide == ' ' || letra_wide == '\n') {
@@ -142,12 +152,18 @@ int main(int argc, char* argv[]) {
 				espaco = 0;
 			}
 		}
+        endTimeConsulta= clock();
 
 		// fecha origem
 		fclose(texto_origem);
 		// fecha destino
 		fclose(texto_destino);
-		printf("NUMERO DE COMPARACOES: %d\n\n", comp);
+        elapsedTimeInsert= 1000000*(endTimeInsert - startTimeInsert)/CLOCKS_PER_SEC;
+        elapsedTimeConsulta= 1000000*(endTimeConsulta - startTimeConsulta)/CLOCKS_PER_SEC;
+		printf("NUMERO DE COMPARACOES: %'ld comps\n", comp);
+        printf("Tempo de Insercao:     %'10ld us\n", elapsedTimeInsert);
+        printf("Tempo de Consulta:     %'10ld us\n", elapsedTimeConsulta);
+        printf("Tempo Total:           %'10ld us\n", elapsedTimeConsulta+elapsedTimeInsert);
 	}
 	
 	return 0;
