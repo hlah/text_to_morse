@@ -1,0 +1,5 @@
+Usando ABP sem balanceamento.
+NUMERO DE COMPARACOES: 284,811,858 comps
+Tempo de Insercao:            262 us
+Tempo de Consulta:     11,119,385 us
+Tempo Total:           11,119,647 us

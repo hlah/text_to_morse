@@ -1,0 +1,5 @@
+Usando AVL.
+NUMERO DE COMPARACOES: 224,960,202 comps
+Tempo de Insercao:            101 us
+Tempo de Consulta:     10,995,112 us
+Tempo Total:           10,995,213 us
