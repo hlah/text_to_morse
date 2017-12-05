@@ -6,7 +6,7 @@ SRC+="ABP/avl.c"
 CC=gcc
 
 all:
-	$(CC) $(SRC) -o  $(OUTPUT)
+	$(CC) -Wall $(SRC) -o  $(OUTPUT)
 
 clean:
 	rm -f $(OUTPUT)
