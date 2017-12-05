@@ -19,7 +19,6 @@
  *****************************************************/
 pNodoA* monta_abp_morse(FILE *fd, insereFuncPtr insert)
 {
-	char	morse[MORSELEN];
     tipoinfo info;
     pNodoA* root= NULL;
     while(fscanf(fd, "%c\t%s\n", &info.key, info.code) == 2) {
@@ -70,7 +69,6 @@ int main(int argc, char* argv[]) {
 	FILE*  	texto_destino;
 	char	espaco;
     pNodoA* rootMorse;
-	char	letra;
 	wchar_t	letra_wide;
 	pNodoA* consultaRetorno;
 	tipoinfo chaveProcura;
@@ -145,7 +143,7 @@ int main(int argc, char* argv[]) {
 				// se caracter ausente na tabela, não converte
 				if( consultaRetorno != NULL ) {
 					// salva no arquivo
-					fprintf(texto_destino, "%s ", consultaRetorno->info.code); // escreve sem converter, para teste
+					fprintf(texto_destino, "%s ", consultaRetorno->info.code);
 				}
 
 				// reseta variavel -- ultima não foi espaço
@@ -158,8 +156,13 @@ int main(int argc, char* argv[]) {
 		fclose(texto_origem);
 		// fecha destino
 		fclose(texto_destino);
-        elapsedTimeInsert= 1000000*(endTimeInsert - startTimeInsert)/CLOCKS_PER_SEC;
-        elapsedTimeConsulta= 1000000*(endTimeConsulta - startTimeConsulta)/CLOCKS_PER_SEC;
+		if(CLOCKS_PER_SEC!= 1000000){
+			elapsedTimeInsert= 1000000*(endTimeInsert - startTimeInsert)/CLOCKS_PER_SEC;
+			elapsedTimeConsulta= 1000000*(endTimeConsulta - startTimeConsulta)/CLOCKS_PER_SEC;
+		}else{
+			elapsedTimeInsert= endTimeInsert - startTimeInsert;
+			elapsedTimeConsulta= endTimeConsulta - startTimeConsulta;
+		}
 		printf("NUMERO DE COMPARACOES: %'ld comps\n", comp);
         printf("Tempo de Insercao:     %'10ld us\n", elapsedTimeInsert);
         printf("Tempo de Consulta:     %'10ld us\n", elapsedTimeConsulta);
