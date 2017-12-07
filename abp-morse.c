@@ -90,10 +90,10 @@ int main(int argc, char* argv[]) {
 		printf("Nao foi possivel abrir o arquivo '%s'\n", argv[1]);
 	} else {
         if(argc==5 && strcmp(argv[4],AVL_OPTION)==0){
-            printf("Usando AVL.\n");
+            printf("*Usando AVL.\n");
             rootMorse= monta_abp_morse(tabelaMorseFD, InsereAVLWrapper);
         }else{
-            printf("Usando ABP sem balanceamento.\n");
+            printf("*Usando ABP sem balanceamento.\n");
             rootMorse= monta_abp_morse(tabelaMorseFD, InsereArvore);
         }
 
@@ -163,10 +163,10 @@ int main(int argc, char* argv[]) {
 			elapsedTimeInsert= endTimeInsert - startTimeInsert;
 			elapsedTimeConsulta= endTimeConsulta - startTimeConsulta;
 		}
-		printf("NUMERO DE COMPARACOES: %'ld comps\n", comp);
-        printf("Tempo de Insercao:     %'10ld us\n", elapsedTimeInsert);
-        printf("Tempo de Consulta:     %'10ld us\n", elapsedTimeConsulta);
-        printf("Tempo Total:           %'10ld us\n", elapsedTimeConsulta+elapsedTimeInsert);
+		printf("\tNUMERO DE COMPARACOES: %'ld comps\n", comp);
+        printf("\tTempo de Insercao:     %'10ld us\n", elapsedTimeInsert);
+        printf("\tTempo de Consulta:     %'10ld us\n", elapsedTimeConsulta);
+        printf("\tTempo Total:           %'10ld us\n", elapsedTimeConsulta+elapsedTimeInsert);
 	}
 	
 	return 0;
