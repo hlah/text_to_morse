@@ -10,6 +10,11 @@
 
 #define AVL_OPTION "avl"
 
+#define ARGV_TABELA_MORSE_OFFSET 	1
+#define ARGV_TEXTO_INPUT_OFFSET		2
+#define ARGV_TEXTO_OUTPUT_OFFSET	3
+#define ARGV_AVL_OPTION_OFFSET		4
+
 /*****************************************************
  * monta_abp_morse:
  * params: FILE* fd - fileDescriptor do arquivo que contem a tabela morse
@@ -81,15 +86,15 @@ int main(int argc, char* argv[]) {
 	setlocale(LC_ALL, "");
 
 	// abre tabela do codigo morse
-	tabelaMorseFD = fopen(argv[1], "r");
+	tabelaMorseFD = fopen(argv[ARGV_TABELA_MORSE_OFFSET], "r");
 
     startTimeInsert= clock();
 
 	// testa abertura
 	if( tabelaMorseFD == NULL ) {
-		printf("Nao foi possivel abrir o arquivo '%s'\n", argv[1]);
+		printf("Nao foi possivel abrir o arquivo '%s'\n", argv[ARGV_TABELA_MORSE_OFFSET]);
 	} else {
-        if(argc==5 && strcmp(argv[4],AVL_OPTION)==0){
+        if(argc==ARGV_AVL_OPTION_OFFSET+1 && strcmp(argv[ARGV_AVL_OPTION_OFFSET],AVL_OPTION)==0){
             printf("*Usando AVL.\n");
             rootMorse= monta_abp_morse(tabelaMorseFD, InsereAVLWrapper);
         }else{
@@ -103,15 +108,15 @@ int main(int argc, char* argv[]) {
     endTimeInsert= clock();
     
 	// abre arquivo destino
-	texto_origem = fopen(argv[2], "r");
+	texto_origem = fopen(argv[ARGV_TEXTO_INPUT_OFFSET], "r");
 	// abre destino
-	texto_destino = fopen(argv[3], "w");
+	texto_destino = fopen(argv[ARGV_TEXTO_OUTPUT_OFFSET], "w");
 
 	// testa abertura dos arquivos
 	if( texto_origem == NULL ) {
-		printf("Nao foi possivel abrir o arquivo '%s'\n", argv[2]);
+		printf("Nao foi possivel abrir o arquivo '%s'\n", argv[ARGV_TEXTO_INPUT_OFFSET]);
 	} else if( texto_destino == NULL ) {
-		printf("Nao foi possivel abrir o arquivo '%s'\n", argv[3]);
+		printf("Nao foi possivel abrir o arquivo '%s'\n", argv[ARGV_TEXTO_OUTPUT_OFFSET]);
 		// fecha origem
 		fclose(texto_origem);
 	} else {

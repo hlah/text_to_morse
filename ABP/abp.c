@@ -53,9 +53,11 @@ void posFixado(pNodoA *a)
       }
 }
 
+// Modficado: recebe inteiro por referencia para contagem de comparações
 pNodoA* consultaABP(pNodoA *a, tipoinfo chave, unsigned long int*comp) {
 
     while (a!=NULL){
+			// incrementa numero de comparações
 		  (*comp)++;
           if (a->info.key == chave.key )
              return a; //achou então retorna o ponteiro para o nodo
