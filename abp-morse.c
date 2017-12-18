@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
     clock_t startTimeInsert, endTimeInsert, elapsedTimeInsert; //para contar o tempo
 
 
-	// função necessária para ler cacteres multi-byte apropriadamente
+	// função necessária para ler caracteres multi-byte apropriadamente
 	setlocale(LC_ALL, "");
 
 	// abre tabela do codigo morse
@@ -101,11 +101,7 @@ int main(int argc, char* argv[]) {
 		fclose(tabelaMorseFD);
 	}
     endTimeInsert= clock();
-//    printf("TABELA MORSE:INICIO\n");   //print da tabela morse
-//    Central(rootMorse);
-//    printf("TABELA MORSE:FIM\n");
     
-	
 	// abre arquivo destino
 	texto_origem = fopen(argv[2], "r");
 	// abre destino
